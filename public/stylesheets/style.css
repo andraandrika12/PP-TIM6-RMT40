@@ -48,7 +48,7 @@ nav ul li a {
 }
 
 .logo {
-  font-family: RoadTest;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   color: #5d0e0e;
   font-size: 22px;
   font-weight: bold;
@@ -60,18 +60,18 @@ nav ul li a {
 }
 
 .text-container p:nth-child(1) {
-  font-family: calibri;
+  font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   color: #6d6d6d;
   font-size: 22px;
 }
 
 .text-container p:nth-child(2) {
-  font-family: calibri;
+  font-family: cursive;
   font-weight: bold;
   letter-spacing: 2px;
   color: #560e0e;
-  font-size: 60px;
+  font-size: 50px;
 }
 
 .text-container p:nth-child(3) {
@@ -82,7 +82,7 @@ nav ul li a {
 }
 
 .text-container p:nth-child(4) {
-  font-family: calibri;
+  font-family: sans-serif;
   color: #403e3e;
   font-size: 17px;
   margin-top: 10px;
@@ -244,7 +244,7 @@ footer p:nth-child(2) {
 
 
 footer {
-  height: 42px;
+  height: 37px;
   display: flex;
   flex-direction: column;
   align-items: center;
