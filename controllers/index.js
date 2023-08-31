@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 class Controller {
 
     static home(req, res) {
-        res.render('/')
+        res.render('home')
     }
 
     static register(req, res) {
