@@ -16,11 +16,11 @@ router.use((req, res, next) => {
     }
 })
 
-router.get('/posts')
-router.get('/posts/add')
-router.post('/posts/add')
-router.get('/posts/delete')
-router.get('/logout')
+router.get('/posts', Controller.getAllPost)
+router.get('/posts/add', Controller.addPost)
+router.post('/posts/add', Controller.storeNewPost)
+router.get('/posts/delete', Controller.deletePost)
+router.get('/logout', Controller.logout)
 
 
 module.exports = router

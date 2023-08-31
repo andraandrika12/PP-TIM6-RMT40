@@ -15,28 +15,24 @@
     <body>
         <div class="main">
 
-            <!-- Sign up form -->
-            <section class="signup">
-                <div class="container">
-                    <div class="signup-content">
-                        <div class="signup-form">
-                            <h2 class="form-title">Sign up</h2>
-                            <form action="/register" method="POST"
-                                class="register-form" id="register-form">
-                                <div class="form-group">
-                                    <label for="email"></label>
-                                    <input type="text" name="email" id="email"
-                                        placeholder="Your Email" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="pass"></label>
-                                    <input type="password" name="pass" id="pass"
-                                        placeholder="Password" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone"></i></label>
-                                <input type="number" name="phone" id="phone"
-                                    placeholder="Your phone number" />
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form action="/register" method="POST" class="register-form" id="register-form">
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="text" name="email" id="email" placeholder="Your Email"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="pass" id="pass" placeholder="Password"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="number" name="phone" id="phone" placeholder="Your phone number"/>
                             </div>
                             <div class="form-group form-button">
                                 <input type="submit" name="signup" id="signup"
