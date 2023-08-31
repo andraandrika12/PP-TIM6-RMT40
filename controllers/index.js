@@ -1,8 +1,9 @@
 const session = require('express-session')
 const { Post, PostTag, Tag, User, UserProfile } = require('../models/index')
 const bcrypt = require('bcryptjs')
-
+const path = require('path')
 const dateFormatToShow = require('../helpers/formater')
+const { Op } = require('sequelize')
 
 class Controller {
 
@@ -100,12 +101,21 @@ class Controller {
 
     static getAllPost(req, res) {
         let userLogIn = req.session.UserId
+        let keyword = req.query.search
+
+        let options = {
+            include: [User, Tag],
+            where: {},
+            order: [['createdAt', 'DESC']]
+        }
+
+        if (keyword) {
+            options.where.title = { [Op.iLike]: keyword }
+        }
 
         let post = []
-        Post.findAll({
-            include: [User, Tag],
-            order: [['createdAt', 'DESC']]
-        })
+        let user = {}
+        Post.findAll(options)
             .then(result => {
                 post = result
                 return UserProfile.findOne({
@@ -113,9 +123,12 @@ class Controller {
                 })
 
             })
-            .then(user => {
-                console.log(user);
-                res.render('post-page', { post, user })
+            .then(result => {
+                user = result
+                return Tag.findAll()
+            })
+            .then(tags => {
+                res.render('post-page', { post, user, tags })
             })
             .catch(err => {
                 console.log(err);
@@ -142,15 +155,20 @@ class Controller {
             errorMsg = errorMsg.split(',')
         }
 
-        res.render('add-post', { errorMsg })
+
+
     }
 
     static storeNewPost(req, res) {
-        let { title, content, imgUrl } = req.body
+        let { title, content, imgUrl, TagId } = req.body
         let UserId = req.session.UserId
 
         Post.create({ title, content, imgUrl, UserId })
             .then((post) => {
+                let PostId = post.id
+                PostTag.create({ PostId, TagId })
+            })
+            .then(() => {
                 res.redirect('/posts')
             })
             .catch(err => {
@@ -164,7 +182,7 @@ class Controller {
     }
 
     static deletePost(req, res) {
-        let id = req.session.id
+        let id = req.params.postId
 
         Post.destroy({
             where: { id }
@@ -197,9 +215,14 @@ class Controller {
 
     static storeUpdateProfile(req, res) {
         let UserId = req.session.UserId
+
+        console.log(req.file);
+        let imgUrl = req.file.path
+
+
         let { firstName, lastName, gender, dateOfBirth } = req.body
-        console.log(firstName, lastName, gender, dateOfBirth);
-        UserProfile.update({ firstName, lastName, gender, dateOfBirth }, {
+
+        UserProfile.update({ firstName, lastName, gender, dateOfBirth, imgUrl }, {
             where: { UserId: UserId }
         })
             .then(() => {
