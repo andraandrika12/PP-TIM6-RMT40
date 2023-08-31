@@ -45,7 +45,7 @@
                                             for="inputFirstName">First name</label>
                                         <input class="form-control"
                                             id="inputFirstName" type="text" name="firstName"
-                                            placeholder="Enter your first name" value="<%= user.firstName %>">
+                                            placeholder="Enter your first name" value="<%= user ? user.firstName : ''%>">
                                     </div>
 
                                     <div class="col-md-6">
@@ -53,7 +53,7 @@
                                             for="inputLastName">Last name</label>
                                         <input class="form-control"
                                             id="inputLastName" type="text" name="lastName"
-                                            placeholder="Enter your last name" value="<%= user.lastName %>">
+                                            placeholder="Enter your last name" value="<%= user ? user.lastName : '' %>">
                                     </div>
                                 </div>
                                 
@@ -64,7 +64,7 @@
                                             for="gender">Gender</label>
                                         <input class="form-control"
                                             id="gender" type="text" name="gender"
-                                            placeholder="Enter your Gender" value="<%= user.gender %>">
+                                            placeholder="Enter your Gender" value="<%= user ? user.gender : '' %>">
                                     </div>
 
 
@@ -76,7 +76,7 @@
                                         <input class="form-control"
                                             id="dateOfBirth" type="date"
                                             name="dateOfBirth"
-                                            placeholder="Enter your birthday" value="<%= dateFormatToShow(user.dateOfBirth) %>">
+                                            placeholder="Enter your birthday" value="<%= user.dateOfBirth ? dateFormatToShow(user.dateOfBirth) : '' %>">
                                     </div>
                                 </div>
                                 <div>
