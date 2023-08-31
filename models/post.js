@@ -12,7 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Post.belongsTo(models.User)
-      Post.hasMany(models.PostTag)
+      Post.belongsToMany(models.Tag, { through: models.PostTag })
+    }
+
+    get dateFormat() {
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }
+      return this.createdAt.toLocaleDateString('eg', options)
     }
   }
   Post.init({

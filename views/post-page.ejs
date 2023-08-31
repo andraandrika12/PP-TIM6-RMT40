@@ -33,7 +33,7 @@
     </head>
     <body>
         <nav class="navbar navbar-light bg-white">
-            <a href="#" class="navbar-brand">Pages de Mon Vécu</a>
+            <a href="" class="navbar-brand">Pages de Mon Vécu</a>
             <form class="form-inline">
                 <div class="input-group">
                     <input type="text" class="form-control"
@@ -54,8 +54,12 @@
                 <div class="col-md-3">
                     <div class="card">
                         <div class="card-body">
-                            <div class="h5">@dharma</div>
-                            <div class="h7 text-muted">Name:</div>
+                            <div class="mr-2">
+                                        <img class="rounded-circle" width="45"
+                                            src="https://picsum.photos/50/50"
+                                            alt>
+                                    </div>
+                            <div class="h5"><%= user.fullName() %></div>
                             <div class="h7">Description
                             </div>
                         </div>
@@ -74,21 +78,21 @@
                 <div class="col-md-6 gedf-main">
 
                     <!--- \\\\\\\Post-->
+                    <form action="/posts/add" method="post">
                     <div class="card gedf-card">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs" id="myTab"
                                 role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="posts-tab"
-                                        data-toggle="tab" href="#posts"
-                                        role="tab" aria-controls="posts"
+                                        data-toggle="tab"
+                                        role="tab"
                                         aria-selected="true">Write Something</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="images-tab"
                                         data-toggle="tab" role="tab"
-                                        aria-controls="images"
-                                        aria-selected="false" href="#images">Images</a>
+                                        aria-selected="false">Images</a>
                                 </li>
                             </ul>
                         </div>
@@ -99,9 +103,12 @@
                                     aria-labelledby="posts-tab">
                                     <div class="form-group">
                                         <label class="sr-only" for="message">post</label>
-                                        <textarea class="form-control"
+                                        <input name="title" class="form-control mb-2"
+                                        id="message" rows="2"
+                                        placeholder="Put your Title here..">
+                                        <textarea name="content" class="form-control mb-3"
                                             id="message" rows="3"
-                                            placeholder="What are you feeling? Tell Us"></textarea>
+                                            placeholder="What are you feeling? Tell Us..."></textarea>
                                     </div>
 
                                 </div>
@@ -121,8 +128,7 @@
                             </div>
                             <div class="btn-toolbar justify-content-between">
                                 <div class="btn-group">
-                                    <button type="submit"
-                                        class="btn btn-primary">Send to public?</button>
+                                    <input type="submit" value="Submit">
                                 </div>
                                 <div class="btn-group">
                                     <button id="btnGroupDrop1" type="button"
@@ -135,20 +141,24 @@
                                     <div
                                         class="dropdown-menu dropdown-menu-right"
                                         aria-labelledby="btnGroupDrop1">
-                                        <a class="dropdown-item" href="#"><i
+                                        <a class="dropdown-item" href=""><i
                                                 class="fa fa-globe"></i> Public</a>
-                                        <a class="dropdown-item" href="#"><i
+                                        <a class="dropdown-item" href=""><i
                                                 class="fa fa-users"></i> Friends</a>
-                                        <a class="dropdown-item" href="#"><i
+                                        <a class="dropdown-item" href=""><i
                                                 class="fa fa-user"></i> Just me</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    </form>
                     <!-- Post /////-->
 
                     <!--- \\\\\\\Post-->
+
+                    <% post.forEach(el => { %>
+                     
                     <div class="card gedf-card">
                         <div class="card-header">
                             <div
@@ -161,7 +171,7 @@
                                             alt>
                                     </div>
                                     <div class="ml-2">
-                                        <div class="h5 m-0">@dharma</div>
+                                        <div class="h5 m-0"><%= el.User.id == user.UserId ? 'Me' : el.User.email %></div>
                                         <div class="h7 text-muted">Location</div>
                                     </div>
                                 </div>
@@ -179,9 +189,9 @@
                                             class="dropdown-menu dropdown-menu-right"
                                             aria-labelledby="gedf-drop1">
                                             <div class="h6 dropdown-header">Configuration</div>
-                                            <a class="dropdown-item" href="#">Save</a>
-                                            <a class="dropdown-item" href="#">Hide</a>
-                                            <a class="dropdown-item" href="#">Report</a>
+                                            <a class="dropdown-item" href="">Save</a>
+                                            <a class="dropdown-item" href="">Hide</a>
+                                            <a class="dropdown-item" href="">Report</a>
                                         </div>
                                     </div>
                                 </div>
@@ -190,159 +200,31 @@
                         </div>
                         <div class="card-body">
                             <div class="text-muted h7 mb-2"> <i
-                                    class="fa fa-clock-o"></i>1 minutes ago</div>
-                            <a class="card-link" href="#">
-                                <h5 class="card-title">Title</h5>
+                                    class="fa fa-clock-o"></i><%= el.dateFormat %></div>
+                            <a class="card-link" href="">
+                                <h5 class="card-title"><%= el.title %></h5>
                             </a>
 
                             <p class="card-text">
-                                Content
+                               <%= el.content %>
                             </p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="#" class="card-link"><i
-                                    class="fa fa-gittip"></i> Like</a>
-                            <a href="#" class="card-link"><i
-                                    class="fa fa-comment"></i> Comment</a>
-                            <a href="#" class="card-link"><i
-                                    class="fa fa-mail-forward"></i> Share</a>
-                        </div>
-                    </div>
-                    <!-- Post /////-->
-
-                    <!--- \\\\\\\Post-->
-                    <div class="card gedf-card">
-                        <div class="card-header">
-                            <div
-                                class="d-flex justify-content-between align-items-center">
-                                <div
-                                    class="d-flex justify-content-between align-items-center">
-                                    <div class="mr-2">
-                                        <img class="rounded-circle" width="45"
-                                            src="https://picsum.photos/50/50"
-                                            alt>
-                                    </div>
-                                    <div class="ml-2">
-                                        <div class="h5 m-0">@dharma</div>
-                                        <div class="h7 text-muted">location</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="dropdown">
-                                        <button
-                                            class="btn btn-link dropdown-toggle"
-                                            type="button" id="gedf-drop1"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">
-                                            <i class="fa fa-ellipsis-h"></i>
-                                        </button>
-                                        <div
-                                            class="dropdown-menu dropdown-menu-right"
-                                            aria-labelledby="gedf-drop1">
-                                            <div class="h6 dropdown-header">Configuration</div>
-                                            <a class="dropdown-item" href="#">Save</a>
-                                            <a class="dropdown-item" href="#">Hide</a>
-                                            <a class="dropdown-item" href="#">Report</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="card-body">
-                            <div class="text-muted h7 mb-2"> <i
-                                    class="fa fa-clock-o"></i> 5 minutes ago</div>
-                            <a class="card-link" href="#">
-                                <h5 class="card-title"> title</h5>
-                            </a>
-
-                            <p class="card-text">
-                         Content
-                            </p>
-                            <div>
-                                <span class="badge badge-primary">JavaScript</span>
-                                <span class="badge badge-primary">Android</span>
-                                <span class="badge badge-primary">PHP</span>
-                                <span class="badge badge-primary">Node.js</span>
-                                <span class="badge badge-primary">Ruby</span>
-                                <span class="badge badge-primary">Paython</span>
+                             <div>
+                                <% el.Tags.forEach(element => { %>
+                                    <span class="badge badge-primary"><%= element.tagName %></span>
+                                <% }) %>
+                                
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="#" class="card-link"><i
+                            <a href="" class="card-link"><i
                                     class="fa fa-gittip"></i> Like</a>
-                            <a href="#" class="card-link"><i
+                            <a href="" class="card-link"><i
                                     class="fa fa-comment"></i> Comment</a>
-                            <a href="#" class="card-link"><i
+                            <a href="" class="card-link"><i
                                     class="fa fa-mail-forward"></i> Share</a>
                         </div>
                     </div>
-                    <!-- Post /////-->
-
-                    <!--- \\\\\\\Post-->
-                    <div class="card gedf-card">
-                        <div class="card-header">
-                            <div
-                                class="d-flex justify-content-between align-items-center">
-                                <div
-                                    class="d-flex justify-content-between align-items-center">
-                                    <div class="mr-2">
-                                        <img class="rounded-circle" width="45"
-                                            src="https://picsum.photos/50/50"
-                                            alt>
-                                    </div>
-                                    <div class="ml-2">
-                                        <div class="h5 m-0">@dharma</div>
-                                        <div class="h7 text-muted">location</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="dropdown">
-                                        <button
-                                            class="btn btn-link dropdown-toggle"
-                                            type="button" id="gedf-drop1"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">
-                                            <i class="fa fa-ellipsis-h"></i>
-                                        </button>
-                                        <div
-                                            class="dropdown-menu dropdown-menu-right"
-                                            aria-labelledby="gedf-drop1">
-                                            <div class="h6 dropdown-header">Configuration</div>
-                                            <a class="dropdown-item" href="#">Save</a>
-                                            <a class="dropdown-item" href="#">Hide</a>
-                                            <a class="dropdown-item" href="#">Report</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="card-body">
-                            <div class="text-muted h7 mb-2"> <i
-                                    class="fa fa-clock-o"></i> 10 minutes ago</div>
-                            <a class="card-link" href="#">
-                                <h5 class="card-title">Title</h5>
-                            </a>
-
-                            <p class="card-text">
-                                content
-                                <a
-                                    href="https://mega.nz/#!1J01nRIb!lMZ4B_DR2UWi9SRQK5TTzU1PmQpDtbZkMZjAIbv97hU"
-                                    target="_blank">https://mega.nz/#!1J01nRIb!lMZ4B_DR2UWi9SRQK5TTzU1PmQpDtbZkMZjAIbv97hU</a>
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="#" class="card-link"><i
-                                    class="fa fa-gittip"></i> Like</a>
-                            <a href="#" class="card-link"><i
-                                    class="fa fa-comment"></i> Comment</a>
-                            <a href="#" class="card-link"><i
-                                    class="fa fa-mail-forward"></i> Share</a>
-                        </div>
-                    </div>
+                    <% }) %>
                     <!-- Post /////-->
                 </div>
             </div>

@@ -1,5 +1,8 @@
+const session = require('express-session')
 const { Post, PostTag, Tag, User, UserProfile } = require('../models/index')
 const bcrypt = require('bcryptjs')
+
+const dateFormatToShow = require('../helpers/formater')
 
 class Controller {
 
@@ -52,6 +55,10 @@ class Controller {
     static loginForm(req, res) {
         let errorMsg = req.query.error
 
+        if (errorMsg) {
+            errorMsg = errorMsg.split(',')
+        }
+
         res.render('login-form', { errorMsg })
     }
 
@@ -73,12 +80,13 @@ class Controller {
 
                 let validPassword = bcrypt.compareSync(password, user.password)
 
+
                 if (!validPassword) {
                     errorMsg = 'incorrect Password'
                     return res.redirect(`/login?error=${errorMsg}`)
                 }
 
-                req.session.id = user.id
+                req.session.UserId = user.id
                 req.session.role = user.role
 
                 res.redirect('/posts')
@@ -91,15 +99,23 @@ class Controller {
     }
 
     static getAllPost(req, res) {
+        let userLogIn = req.session.UserId
+
+        let post = []
         Post.findAll({
-            include: {
-                model: Tag,
-                through: PostTag
-            },
-            order: ["createdAt", "DESC"]
+            include: [User, Tag],
+            order: [['createdAt', 'DESC']]
         })
-            .then(post => {
-                res.render('timeline')
+            .then(result => {
+                post = result
+                return UserProfile.findOne({
+                    where: { UserId: userLogIn }
+                })
+
+            })
+            .then(user => {
+                console.log(user);
+                res.render('post-page', { post, user })
             })
             .catch(err => {
                 console.log(err);
@@ -131,10 +147,10 @@ class Controller {
 
     static storeNewPost(req, res) {
         let { title, content, imgUrl } = req.body
-        let UserId = req.session.id
+        let UserId = req.session.UserId
 
         Post.create({ title, content, imgUrl, UserId })
-            .then(() => {
+            .then((post) => {
                 res.redirect('/posts')
             })
             .catch(err => {
@@ -157,6 +173,43 @@ class Controller {
                 res.redirect('/posts')
             })
             .catch(err => {
+                console.log(err);
+                res.send(err)
+            })
+    }
+
+    static userProfile(req, res) {
+        let UserId = req.session.UserId
+
+        let errorMsg = req.query.error
+
+        if (errorMsg) {
+            errorMsg = errorMsg.split(',')
+        }
+
+        UserProfile.findOne({
+            where: { UserId }
+        })
+            .then(user => {
+                res.render('userProfile-page', { user, dateFormatToShow, errorMsg })
+            })
+    }
+
+    static storeUpdateProfile(req, res) {
+        let UserId = req.session.UserId
+        let { firstName, lastName, gender, dateOfBirth } = req.body
+        console.log(firstName, lastName, gender, dateOfBirth);
+        UserProfile.update({ firstName, lastName, gender, dateOfBirth }, {
+            where: { UserId: UserId }
+        })
+            .then(() => {
+                res.redirect('/posts')
+            })
+            .catch(err => {
+                if (err.name == 'SequelizeValidationError') {
+                    let errorMsg = err.errors.map(e => e.message)
+                    return res.redirect(`/userProfile/edit?error=${errorMsg}`)
+                }
                 console.log(err);
                 res.send(err)
             })

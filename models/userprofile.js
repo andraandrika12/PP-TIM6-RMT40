@@ -13,9 +13,26 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       UserProfile.belongsTo(models.User)
     }
+
+    fullName() {
+      return this.firstName + ' ' + this.lastName
+    }
   }
   UserProfile.init({
-    firstName: DataTypes.STRING,
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'First Name required cannot be empty!'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'First Name required cannot be empty!'
+        }
+      }
+    },
     lastName: DataTypes.STRING,
     gender: DataTypes.STRING,
     dateOfBirth: DataTypes.DATE,
