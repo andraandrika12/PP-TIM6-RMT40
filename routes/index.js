@@ -4,8 +4,8 @@ const Controller = require('../controllers')
 router.get('/', Controller.home)
 router.get('/register', Controller.register)
 router.post('/register', Controller.storeNewUser)
-router.get('/login')
-router.post('/login')
+router.get('/login', Controller.loginForm)
+router.post('/login', Controller.postLogin)
 
 router.use((req, res, next) => {
     if (!req.session.id) {
