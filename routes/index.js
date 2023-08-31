@@ -6,6 +6,16 @@ router.get('/register', Controller.register)
 router.post('/register', Controller.storeNewUser)
 router.get('/login')
 router.post('/login')
+
+router.use((req, res, next) => {
+    if (!req.session.id) {
+        let error = 'Please Log in to your Account'
+        res.redirect(`/login?error=${error}`)
+    } else {
+        next()
+    }
+})
+
 router.get('/posts')
 router.get('/posts/add')
 router.post('/posts/add')
