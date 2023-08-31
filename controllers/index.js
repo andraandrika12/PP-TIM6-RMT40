@@ -11,7 +11,7 @@ class Controller {
         let errorMsg = req.query.error
 
         if (errorMsg) {
-            res.send(errorMsg)
+            errorMsg = errorMsg.split(',')
         }
 
         res.render('register-form', { errorMsg })
@@ -26,16 +26,18 @@ class Controller {
         })
             .then(result => {
 
-                if (!result) {
+                if (result) {
+                    let errorMsg = 'Email has already registered'
+                    return res.redirect(`/register?error=${errorMsg}`)
+                } else {
                     return User.create({ email, password, phone })
                 }
 
-                let errorMsg = 'Email has already registered'
-                return res.redirect(`/register?error=${errorMsg}`)
-
             })
-            .then(() => {
-                res.redirect('/login')
+            .then((success) => {
+                if (success) {
+                    res.redirect('/login')
+                }
             })
             .catch(err => {
                 if (err.name == 'SequelizeValidationError') {
@@ -94,10 +96,14 @@ class Controller {
                 model: Tag,
                 through: PostTag
             },
-            order: ["createdAt"]
+            order: ["createdAt", "DESC"]
         })
             .then(post => {
                 res.render('timeline')
+            })
+            .catch(err => {
+                console.log(err);
+                res.send(err)
             })
     }
 
@@ -110,6 +116,50 @@ class Controller {
                 res.redirect('/')
             }
         })
+    }
+
+    static addPost(req, res) {
+
+        let errorMsg = req.query.error
+
+        if (errorMsg) {
+            errorMsg = errorMsg.split(',')
+        }
+
+        res.render('add-post', { errorMsg })
+    }
+
+    static storeNewPost(req, res) {
+        let { title, content, imgUrl } = req.body
+        let UserId = req.session.id
+
+        Post.create({ title, content, imgUrl, UserId })
+            .then(() => {
+                res.redirect('/posts')
+            })
+            .catch(err => {
+                if (err.name == 'SequelizeValidationError') {
+                    let errorMsg = err.errors.map(e => e.message)
+                    return res.redirect(`/register?error=${errorMsg}`)
+                }
+                console.log(err);
+                res.send(err)
+            })
+    }
+
+    static deletePost(req, res) {
+        let id = req.session.id
+
+        Post.destroy({
+            where: { id }
+        })
+            .then(() => {
+                res.redirect('/posts')
+            })
+            .catch(err => {
+                console.log(err);
+                res.send(err)
+            })
     }
 }
 
