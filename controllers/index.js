@@ -22,7 +22,7 @@ class Controller {
     }
 
     static storeNewUser(req, res) {
-        let { email, password, phone } = req.body
+        let { email, password, phone, firstName, lastName } = req.body
         User.findOne({
             where: {
                 email: email
@@ -38,10 +38,14 @@ class Controller {
                 }
 
             })
-            .then((success) => {
-                if (success) {
-                    res.redirect('/login')
+            .then((user) => {
+                if (user) {
+                    let UserId = user.id
+                    return UserProfile.create({ firstName, lastName, UserId })
                 }
+            })
+            .then(() => {
+                res.redirect('/login')
             })
             .catch(err => {
                 if (err.name == 'SequelizeValidationError') {
@@ -216,13 +220,13 @@ class Controller {
     static storeUpdateProfile(req, res) {
         let UserId = req.session.UserId
 
-        console.log(req.file);
-        let imgUrl = req.file.path
+
+        let profilePicture = req.file.path
 
 
         let { firstName, lastName, gender, dateOfBirth } = req.body
 
-        UserProfile.update({ firstName, lastName, gender, dateOfBirth, imgUrl }, {
+        UserProfile.update({ firstName, lastName, gender, dateOfBirth, profilePicture }, {
             where: { UserId: UserId }
         })
             .then(() => {

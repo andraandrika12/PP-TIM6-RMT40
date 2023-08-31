@@ -61,7 +61,7 @@
                                             src="https://picsum.photos/50/50"
                                             alt>
                                     </div>
-                            <div class="h5"><%= user.fullName() %></div>
+                            <div class="h5"><%= user ? user.fullName() : "Create Profile" %></div>
                             <div class="h6"><a href="/userProfile/edit">Edit Profile</a>
                             </div>
                         </div>
@@ -179,7 +179,11 @@
                                             alt>
                                     </div>
                                     <div class="ml-2">
-                                        <div class="h5 m-0"><%= el.User.id == user.UserId ? 'Me' : el.User.email %></div>
+                                        <% if (user) { %>
+                                         <div class="h5 m-0"><%= el.User.id == user.UserId ? 'Me' : el.User.email %></div>
+                                        <% } else { %>
+                                         <div class="h5 m-0"><%= el.User.email %></div>
+                                        <% } %>
                                         <div class="h7 text-muted">Location</div>
                                     </div>
                                 </div>

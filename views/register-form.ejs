@@ -34,11 +34,24 @@
                                 <label for="phone"><i class="zmdi zmdi-lock-outline"></i></label>
                                 <input type="number" name="phone" id="phone" placeholder="Your phone number"/>
                             </div>
+                            <div class="form-group">
+                                <label for="firstName"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="text" name="firstName" id="firstName" placeholder="Your Firstname"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="text" name="lastName" id="lastName" placeholder="Your Lastname"/>
+                            </div>
                             <div class="form-group form-button">
                                 <input type="submit" name="signup" id="signup"
                                     class="form-submit" value="Register" />
                             </div>
                         </form>
+                         <% if (errorMsg) { %>
+                         <% errorMsg.forEach(e => { %>
+                          <p class="text-danger">*<%= e %></p>
+                         <% }) %>
+                        <% } %>
                     </div>
                     <div class="signup-image">
                         <figure><img src="images/signup-image.jpg"
