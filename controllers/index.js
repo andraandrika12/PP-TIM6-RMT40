@@ -3,7 +3,7 @@ const { Post, PostTag, Tag, User, UserProfile } = require('../models/index')
 class Controller {
 
     static home(req, res) {
-        res.render('/')
+        res.render('home')
     }
 
     static register(req, res) {
