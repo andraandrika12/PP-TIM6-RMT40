@@ -21,15 +21,11 @@
                         <div class="card-body text-center">
 
                             <img class="img-account-profile rounded-circle mb-2"
-                                src="http://bootdey.com/img/Content/avatar/avatar1.png"
-                                alt>
-
-                            <div class="small font-italic text-muted mb-4">JPG
-                                or PNG no larger than 5 MB</div>
-
-                            <button class="btn btn-primary" type="button">Upload
-                                new image</button>
+                                src=<%= user.profilePicture %>
+                                alt="profilePicture">
+                             
                         </div>
+                        <img src="<%= user.profilePicture %>" alt="" srcset="">
                     </div>
                 </div>
                 <div class="col-xl-8">
@@ -37,7 +33,7 @@
                     <div class="card mb-4">
                         <div class="card-header">Account Details</div>
                         <div class="card-body">
-                            <form action="/userProfile/edit" method="post">
+                            <form action="/userProfile/edit" method="post" enctype="multipart/form-data">
                                 <div class="row gx-3 mb-3">
 
                                     <div class="col-md-6">

@@ -220,13 +220,13 @@ class Controller {
     static storeUpdateProfile(req, res) {
         let UserId = req.session.UserId
 
-        // console.log(req.file);
-        // let imgUrl = req.file.path
+
+        let profilePicture = req.file.path
 
 
         let { firstName, lastName, gender, dateOfBirth } = req.body
 
-        UserProfile.update({ firstName, lastName, gender, dateOfBirth }, {
+        UserProfile.update({ firstName, lastName, gender, dateOfBirth, profilePicture }, {
             where: { UserId: UserId }
         })
             .then(() => {

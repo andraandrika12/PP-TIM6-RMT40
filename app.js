@@ -6,6 +6,7 @@ const path = require('path')
 const session = require('express-session')
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'assets')));
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: true }))
@@ -20,7 +21,7 @@ app.use(session({
     }
 }))
 
-app.use('./assets', express.static('assets'))
+app.use(express.static('./public'));
 
 app.use(router)
 

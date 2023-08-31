@@ -3,14 +3,25 @@ const router = express.Router()
 const Controller = require('../controllers')
 const path = require('path')
 const multer = require('multer')
+const checkFileType = require('../helpers/pict-type')
+
+
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './assets')
-    },
+    destination: './public/uploads/',
     filename: function (req, file, cb) {
-        cb(null, file.originalname)
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
-})
+});
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 1000000 },
+    fileFilter: function (req, file, cb) {
+        checkFileType(file, cb);
+    }
+}).single('profilePicture');
+
+
 
 
 router.get('/', Controller.home)
@@ -28,9 +39,9 @@ router.use(function (req, res, next) {
         next()
     }
 })
-const upload = multer({ storage: storage })
+
 router.get('/userProfile/edit', Controller.userProfile)
-router.post('/userProfile/edit', upload.single('profilePicture'), Controller.storeUpdateProfile)
+router.post('/userProfile/edit', upload, Controller.storeUpdateProfile)
 router.get('/posts', Controller.getAllPost)
 router.get('/posts/add', Controller.addPost)
 router.post('/posts/add', Controller.storeNewPost)
