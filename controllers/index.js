@@ -10,6 +10,10 @@ class Controller {
     static register(req, res) {
         let errorMsg = req.query.error
 
+        if (errorMsg) {
+            res.send(errorMsg)
+        }
+
         res.render('register-form', { errorMsg })
     }
 
@@ -34,6 +38,10 @@ class Controller {
                 res.redirect('/login')
             })
             .catch(err => {
+                if (err.name == 'SequelizeValidationError') {
+                    let errorMsg = err.errors.map(e => e.message)
+                    return res.redirect(`/register?error=${errorMsg}`)
+                }
                 console.log(err);
                 res.send(err)
             })
