@@ -37,23 +37,23 @@
                     <div class="card mb-4">
                         <div class="card-header">Account Details</div>
                         <div class="card-body">
-                            <form>
+                            <form action="/userProfile/edit" method="post">
                                 <div class="row gx-3 mb-3">
 
                                     <div class="col-md-6">
                                         <label class="small mb-1"
                                             for="inputFirstName">First name</label>
                                         <input class="form-control"
-                                            id="inputFirstName" type="text"
-                                            placeholder="Enter your first name">
+                                            id="inputFirstName" type="text" name="firstName"
+                                            placeholder="Enter your first name" value="<%= user.firstName %>">
                                     </div>
 
                                     <div class="col-md-6">
                                         <label class="small mb-1"
                                             for="inputLastName">Last name</label>
                                         <input class="form-control"
-                                            id="inputLastName" type="text"
-                                            placeholder="Enter your last name">
+                                            id="inputLastName" type="text" name="lastName"
+                                            placeholder="Enter your last name" value="<%= user.lastName %>">
                                     </div>
                                 </div>
                                 
@@ -63,8 +63,8 @@
                                         <label class="small mb-1"
                                             for="gender">Gender</label>
                                         <input class="form-control"
-                                            id="gender" type="text"
-                                            placeholder="Enter your Gender">
+                                            id="gender" type="text" name="gender"
+                                            placeholder="Enter your Gender" value="<%= user.gender %>">
                                     </div>
 
 
@@ -74,15 +74,18 @@
                                         <label class="small mb-1"
                                             for="dateOfBirth">Birthday</label>
                                         <input class="form-control"
-                                            id="dateOfBirth" type="text"
+                                            id="dateOfBirth" type="date"
                                             name="dateOfBirth"
-                                            placeholder="Enter your birthday">
+                                            placeholder="Enter your birthday" value="<%= dateFormatToShow(user.dateOfBirth) %>">
                                     </div>
                                 </div>
-
-                                <button class="btn btn-primary" type="button">Save
-                                    changes</button>
+                                <input class="btn btn-primary" type="submit" value="Save Changes">
                             </form>
+                             <% if (errorMsg) { %>
+                         <% errorMsg.forEach(e => { %>
+                          <p class="text-danger">*<%= e %></p>
+                         <% }) %>
+                        <% } %>
                         </div>
                     </div>
                 </div>
