@@ -212,8 +212,6 @@ class Controller {
             where: { UserId }
         })
             .then(user => {
-                user.profilePicture = user.profilePicture.substring(7)
-                console.log(user.profilePicture);
                 res.render('userProfile-page', { user, dateFormatToShow, errorMsg })
             })
     }
