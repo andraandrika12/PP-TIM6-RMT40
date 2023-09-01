@@ -9,7 +9,6 @@ module.exports = {
     dataTag = JSON.parse(dataTag)
 
     dataTag.forEach(e => {
-      delete e.id
       e.createdAt = new Date()
       e.updatedAt = new Date()
     })

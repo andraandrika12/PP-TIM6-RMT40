@@ -9,7 +9,6 @@ module.exports = {
     dataUser = JSON.parse(dataUser)
 
     dataUser.forEach(e => {
-      delete e.id
       e.createdAt = new Date()
       e.updatedAt = new Date()
     })
