@@ -113,7 +113,7 @@ class Controller {
         }
 
         if (keyword) {
-            options.where.title = { [Op.iLike]: keyword }
+            options.where.title = { [Op.iLike]: `%${keyword}%` }
         }
 
         let post = []
@@ -187,9 +187,16 @@ class Controller {
     static deletePost(req, res) {
         let id = req.params.postId
 
-        Post.destroy({
-            where: { id }
+        PostTag.destroy({
+            where: { PostId: id }
         })
+            .then(() => {
+                return Post.destroy({
+                    where: {
+                        id
+                    }
+                })
+            })
             .then(() => {
                 res.redirect('/posts')
             })
