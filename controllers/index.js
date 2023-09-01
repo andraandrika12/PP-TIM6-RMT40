@@ -1,7 +1,6 @@
 const session = require('express-session')
 const { Post, PostTag, Tag, User, UserProfile } = require('../models/index')
 const bcrypt = require('bcryptjs')
-const path = require('path')
 const dateFormatToShow = require('../helpers/formater')
 const { Op } = require('sequelize')
 
@@ -213,6 +212,8 @@ class Controller {
             where: { UserId }
         })
             .then(user => {
+                user.profilePicture = user.profilePicture.substring(7)
+                console.log(user.profilePicture);
                 res.render('userProfile-page', { user, dateFormatToShow, errorMsg })
             })
     }

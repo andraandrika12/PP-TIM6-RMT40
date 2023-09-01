@@ -19,7 +19,7 @@ const upload = multer({
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
     }
-}).single('profilePicture');
+})
 
 
 
@@ -41,10 +41,10 @@ router.use(function (req, res, next) {
 })
 
 router.get('/userProfile/edit', Controller.userProfile)
-router.post('/userProfile/edit', upload, Controller.storeUpdateProfile)
+router.post('/userProfile/edit', upload.single('profilePicture'), Controller.storeUpdateProfile)
 router.get('/posts', Controller.getAllPost)
 router.get('/posts/add', Controller.addPost)
-router.post('/posts/add', Controller.storeNewPost)
+router.post('/posts/add', upload.single('imgUrl'), Controller.storeNewPost)
 router.get('/posts/:postId/delete', Controller.deletePost)
 router.get('/logout', Controller.logout)
 
