@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Post.belongsTo(models.User)
-      Post.belongsToMany(models.Tag, { through: models.PostTag })
+      Post.belongsToMany(models.Tag, { through: models.PostTag, onDelete: 'cascade' })
     }
 
     get dateFormat() {
