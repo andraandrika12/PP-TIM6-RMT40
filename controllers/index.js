@@ -226,9 +226,10 @@ class Controller {
     static storeUpdateProfile(req, res) {
         let UserId = req.session.UserId
 
-
-        let profilePicture = req.file.path
-
+        let profilePicture = ''
+        if (req.file) {
+            profilePicture = req.file.path
+        }
 
         let { firstName, lastName, gender, dateOfBirth } = req.body
 
